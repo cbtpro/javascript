@@ -1,15 +1,13 @@
 # javascript
 
-`
-echo "# javascript" >> README.md
+`echo "# javascript" >> README.md`
 
-git init
+`git init`
 
-git add README.md
+`git add README.md`
 
-git commit -m "first commit"
+`git commit -m "first commit"`
 
-git remote add origin https://github.com/cbtpro/javascript.git
+`git remote add origin https://github.com/cbtpro/javascript.git`
 
-git push -u origin master
-`
+`git push -u origin master`
