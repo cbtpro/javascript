@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>顺时针输出</title>
+</head>
+<body>
+<script>
+	var arrs = [
+		[1, 2, 3, 4],
+		[5, 6, 7, 8],
+		[9, 10, 11, 12],
+		[13, 14, 15, 16]
+	];
+	var temp = [];
+	while(arrs.length > 0) {
+		temp = temp.concat(arrs[0]);		
+		arrs.shift();
+		for(var i = 0; i < arrs.length; i++) {
+			temp.push(arrs[i][arrs[i].length-1]);
+			arrs[i].pop();
+		}
+		temp = temp.concat(arrs[arrs.length-1].reverse());
+		arrs.pop();
+		for(var j = arrs.length - 1;j > 0; j--) {
+			temp.push(arrs[j][0]);
+			arrs[j].shift();
+		}
+	}
+	console.log(temp);
+</script>
+</body>
+</html>
