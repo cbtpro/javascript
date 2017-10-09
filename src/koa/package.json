@@ -1,0 +1,13 @@
+{
+  "name": "koa",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "cbtpro@163.com",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node server.js"
+  },
+  "devDependencies": {
+    "koa": "^2.3.0"
+  }
+}
