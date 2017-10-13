@@ -33,8 +33,9 @@ module.exports = {
         {
           test: /\.css$/,
           use: [
+            'style-loader',
             {
-              loader: 'css-loader/locals',
+              loader: 'css-loader',
               options: {
                 modules: true,
                 localIdentName: '[name]__[local]___[hash:base64:5]',
