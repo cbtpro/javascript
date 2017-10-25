@@ -67,7 +67,7 @@ function start(stratum, menu) {
 var lastPrecent;
 function process() {
     var precent = Math.floor(menuId/menuNum*100);
-    if(precent%2 === 0 && lastPrecent !== precent) {
+    if(lastPrecent !== precent) {
         console.clear();
         lastPrecent = precent;
         console.log('当前进度: ' + precent + '%');
@@ -81,8 +81,6 @@ function buildMenu(menuNum, menu) {
     start(menuNum, menu);
     var endTime1 = new Date();
     var menus = menu.menus;
-    console.log('开始时间：' + startTime1);
-    console.log('结束时间：' + endTime1);
     console.log('总耗时：' + (endTime1 - startTime1) + 'ms');
     console.log('共生成：' + menuNum + '个菜单');
     return menu.menus;
@@ -114,9 +112,7 @@ function findMenu(menus, id) {
     stopRecursionFlag = false;
     go(menus, id);
     var endTime = new Date();
-    console.log('开始时间：' + startTime);
-    console.log('结束时间：' + endTime);
-    console.log('总耗时：' + (endTime - startTime) + 'ms');
+    console.log('查找总耗时：' + (endTime - startTime) + 'ms');
 }
 
 var menu = {};
@@ -125,6 +121,7 @@ var menus = buildMenu(menuNum, menu);
 
 findMenu(menus, 100);
 findMenu(menus, 9999990);
+findMenu(menus, 9999993);
 </script>
 </body>
 </html>
