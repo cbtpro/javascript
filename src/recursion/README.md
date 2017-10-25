@@ -186,7 +186,7 @@ go(menus, 5);
 
 # 挑战
 
-接下来挑战一下，生成一个1w个节点的菜单树，在这1w个菜单的节点中找到对应的菜单。
+接下来挑战一下，生成一个10000000个节点的菜单树，在这1w个菜单的节点中找到对应的菜单。
 
 ```javascript
 function getRandomNum(min,max) {   
@@ -204,23 +204,111 @@ function randomString(len) {
 　　}
 　　return str;
 }
-function buildMenu(deep, menuId) {
-    var menu = {
-        id: menuId,
-        name: randomString(6)
-    };
-    menuId++;
-    return menu;
-}
-function start(stratum) {
+function start(stratum, menu) {
     var menus = [];
     while(menuId < stratum) {
-      	var deep = getRandomNum(1,5);
-        menus.push(buildMenu(deep, menuId));
+
+        menus.push(function() {
+            var menu = {
+                id: menuId,
+                name: randomString(10)
+            };
+            menuId++;
+            var menus = [];
+            for(var i=0;i<3;i++) {
+                menus.push(function() {
+                    var menu = {
+                        id: menuId,
+                        name: randomString(10)
+                    };
+                    menuId++;
+
+                    var menus = [];
+                    for(var i=0;i<3;i++) {
+                        menus.push(function() {
+                            var menu = {
+                                id: menuId,
+                                name: randomString(10)
+                            };
+                            menuId++;
+                            return menu;
+                        }());
+                    }
+                    menu.menus = menus;
+                    return menu;
+                }());
+            }
+            menu.menus = menus;
+            return menu;
+        }());
+        process();
+
     }
-    return menus;
+    menu.menus = menus;
 }
+var lastPrecent;
+function process() {
+    var precent = Math.floor(menuId/menuNum*100);
+    if(precent%2 === 0 && lastPrecent !== precent) {
+        console.clear();
+        lastPrecent = precent;
+        console.log('当前进度: ' + precent + '%');
+    }
+};
 var menuId = 0;
-var menus = start(10000);
+function buildMenu(menuNum, menu) {
+    console.log('开始生成数据');
+    var startTime1 = new Date();
+    menuId = 0;
+    start(menuNum, menu);
+    var endTime1 = new Date();
+    var menus = menu.menus;
+    console.log('开始时间：' + startTime1);
+    console.log('结束时间：' + endTime1);
+    console.log('总耗时：' + (endTime1 - startTime1) + 'ms');
+    console.log('共生成：' + menuNum + '个菜单');
+    return menu.menus;
+}
+var stopRecursionFlag; //停止遍历的标志位
+function handler(menu, menuId) {
+    if(stopRecursionFlag) {
+        return;
+    }
+    //console.log('遍历了菜单: ' + menu.name);
+    if(menu.id === menuId) {
+        stopRecursionFlag = true;
+        console.log('找到菜单id为: ' + menuId);
+        console.log(menu);
+        return;
+    }
+    if(menu.menus) {
+        go(menu.menus, menuId)
+    }
+}
+function go(menus, menuId) {
+    for(var i=0;i<menus.length;i++) {
+        handler(menus[i], menuId);
+    }
+}
+function findMenu(menus, id) {
+    console.log('开始查询数据');
+    var startTime = new Date();
+    stopRecursionFlag = false;
+    go(menus, id);
+    var endTime = new Date();
+    console.log('开始时间：' + startTime);
+    console.log('结束时间：' + endTime);
+    console.log('总耗时：' + (endTime - startTime) + 'ms');
+}
+
+var menu = {};
+var menuNum = 10000000;
+var menus = buildMenu(menuNum, menu);
+
+findMenu(menus, 100);
+findMenu(menus, 9999990);
 ```
 
+发现查找不同位置的menu，消耗的时间不同，
+
+下一次来优化这个查找的算法。
