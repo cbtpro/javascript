@@ -1,0 +1,66 @@
+<html>
+    <head>
+        
+    </head>
+    <body>
+        <script type="text/javascript">
+            var menus = [{
+                id: 1,
+                menu: [{
+                    id: 2,
+                    menu: [{
+                        id:3
+                    }]  
+                }]
+            },{
+                id: 3,
+                menu: [{
+                    id: 4,
+                    menu: [{
+                        id:5
+                    }]  
+                }]
+            },{
+                id: 6,
+                menu: [{
+                    id: 7,
+                    menu: [{
+                        id:8,
+                        menu: [{
+                            id: 9
+                        }]
+                    }]  
+                }]
+            }];
+            var obj;
+            var stop = false;
+            var count = 0;
+            function handler(data, code) {
+                if(stop) {  //如果找到了，停止函数
+                    return;
+                }
+                count++;
+                if(data.id === code) {
+                    obj = data;
+                    stop = true;
+                    console.log(obj);
+                    //这里做相应的操作
+                    return;
+                }
+                if(data.menu) {
+                    go(data.menu, code);
+                }
+            };
+            function go(menus, code) {
+                for(var i=0;i<menus.length;i++) {
+                    handler(menus[i], code);
+                }
+            };
+            go(menus, 1);
+            //go(menus, 5);
+            //go(menus, 2);
+
+            
+        </script>
+    </body>
+</html>

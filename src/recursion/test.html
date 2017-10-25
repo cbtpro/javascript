@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>test</title>
+</head>
+<body>
+    <div id="container"></div>
+<script type="text/javascript">
+/**
+function getRandomNum(min,max) {
+    var range = max - min;   
+    var rand = Math.random();   
+    return(min + Math.round(rand * range));   
+}
+function randomString(len) {
+　　len = len || 32;
+　　var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';    //默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1
+　　var maxPos = $chars.length;
+　　var str = '';
+　　for (i = 0; i < len; i++) {
+　　　　str += $chars.charAt(Math.floor(Math.random() * maxPos));
+　　}
+　　return str;
+}
+function buildMenu(deep) {
+    var menu = {
+        id: menuId,
+        name: randomString(10)
+    };
+    menuId++;
+    deep.level--;
+    if(deep.level === 0) {
+        return menu;
+    } else {
+        start(menuNum, deep, menu);
+        if(deep.level ===0) {
+            return menu;
+        }
+    }
+}
+function start(stratum, deep, menu) {
+    var menus = [];
+    while(menuId < stratum) {
+        if(!deep || deep.level <= 0) {
+            deep = {};
+            deep.level = getRandomNum(1,4);
+        }
+        menus.push(buildMenu(deep));
+    }
+    menu.menus = menus;
+}
+
+var stopRecursionFlag; //停止遍历的标志位
+function handler(menu, menuId) {
+    if(stopRecursionFlag) {
+        return;
+    }
+    //console.log('遍历了菜单: ' + menu.name);
+    if(menu.id === menuId) {
+        stopRecursionFlag = true;
+        console.log('找到菜单id为: ' + menuId);
+        console.log(menu);
+        return;
+    }
+    if(menu.menus) {
+        go(menu.menus, menuId)
+    }
+}
+function go(menus, menuId) {
+    for(var i=0;i<menus.length;i++) {
+        handler(menus[i], menuId);
+    }
+}
+console.log('开始生成数据');
+var startTime1 = new Date();
+var menuId = 0;
+var menu = {};
+var menuNum = 4000;
+start(menuNum, null, menu);
+var endTime1 = new Date();
+var menus = menu.menus;
+console.log('开始时间：' + startTime1);
+console.log('结束时间：' + endTime1);
+console.log('总耗时：' + (endTime1 - startTime1) + 'ms');
+console.log('共生成：' + menuNum + '个菜单');
+
+console.log('开始查询数据');
+var startTime = new Date();
+go(menus, 3500);
+var endTime = new Date();
+console.log('开始时间：' + startTime);
+console.log('结束时间：' + endTime);
+console.log('总耗时：' + (endTime - startTime) + 'ms');
+***/
+function getRandomNum(min,max) {   
+    var range = max - min;   
+    var rand = Math.random();   
+    return(min + Math.round(rand * range));   
+}
+function randomString(len) {
+　　len = len || 32;
+　　var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+　　var maxPos = $chars.length;
+　　var str = '';
+　　for (i = 0; i < len; i++) {
+　　　　str += $chars.charAt(Math.floor(Math.random() * maxPos));
+　　}
+　　return str;
+}
+function start(stratum, menu) {
+    var menus = [];
+    while(menuId < stratum) {
+        menus.push(function() {
+            var menu = {
+                id: menuId,
+                name: randomString(10)
+            };
+            menuId++;
+            var menus = [];
+            for(var i=0;i<3;i++) {
+                menus.push(function() {
+                    var menu = {
+                        id: menuId,
+                        name: randomString(10)
+                    };
+                    menuId++;
+
+                    var menus = [];
+                    for(var i=0;i<3;i++) {
+                        menus.push(function() {
+                            var menu = {
+                                id: menuId,
+                                name: randomString(10)
+                            };
+                            menuId++;
+                            return menu;
+                        }());
+                    }
+                    menu.menus = menus;
+                    return menu;
+                }());
+            }
+            menu.menus = menus;
+            return menu;
+        }());
+    }
+    menu.menus = menus;
+}
+var stopRecursionFlag; //停止遍历的标志位
+function handler(menu, menuId) {
+    if(stopRecursionFlag) {
+        return;
+    }
+    //console.log('遍历了菜单: ' + menu.name);
+    if(menu.id === menuId) {
+        stopRecursionFlag = true;
+        console.log('找到菜单id为: ' + menuId);
+        console.log(menu);
+        return;
+    }
+    if(menu.menus) {
+        go(menu.menus, menuId)
+    }
+}
+function go(menus, menuId) {
+    for(var i=0;i<menus.length;i++) {
+        handler(menus[i], menuId);
+    }
+}
+console.log('开始生成数据');
+var startTime1 = new Date();
+var menuId = 0;
+var menu = {};
+var menuNum = 100000000;
+start(menuNum, menu);
+var endTime1 = new Date();
+var menus = menu.menus;
+console.log('开始时间：' + startTime1);
+console.log('结束时间：' + endTime1);
+console.log('总耗时：' + (endTime1 - startTime1) + 'ms');
+console.log('共生成：' + menuNum + '个菜单');
+console.log(menus);
+
+console.log('开始查询数据');
+var startTime = new Date();
+go(menus, 99243);
+var endTime = new Date();
+console.log('开始时间：' + startTime);
+console.log('结束时间：' + endTime);
+console.log('总耗时：' + (endTime - startTime) + 'ms');
+</script>
+</body>
+</html>
