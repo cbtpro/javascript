@@ -26,3 +26,6 @@ body {
     padding: 6px 15px 6px 6px;
     border: 1px solid #aaa;
 }
+.container div#calendar .row div.current {
+    background-color: #2bc52ed1;
+}

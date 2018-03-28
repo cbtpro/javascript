@@ -124,7 +124,9 @@ function onready() {
             if( ( ( index + 1 ) % 7) === 1){
                 t += '<div class="row">'
             }
-            t += `<div>${v.day || '&nbsp;'}</div>`;
+            let now = new Date();
+            let isCurrent = (v.year && v.year.year == now.getFullYear() && v.month && v.month.month == now.getMonth() && v.day == now.getDate() );
+            t += `<div class=${isCurrent?"current":""}>${v.day || '&nbsp;'}</div>`;
             if( ( ( index + 1 ) % 7) === 0){
                 t += '</div>'
             }
