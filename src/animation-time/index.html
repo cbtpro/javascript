@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>动画时间</title>
+    <style type="text/css">
+      html, body {
+        margin: 0;
+        font-size: 12px;
+      }
+      .container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 300px;
+        height: 80px;
+        transform: translate(-50%, -50%);
+        border: 1px gray solid;
+        overflow: hidden;
+      }
+      .time-block {
+        float: left;
+        position: relative;
+        font-size: 4.5rem;
+        width: 50px;
+        text-align: center;
+        word-wrap:break-word;
+        transition: top 1s;
+      }
+    </style>
+    <script type="text/javascript">
+      function getRandomArbitrary(min, max) {
+        return Math.floor(Math.random() * (max - min) + min + 1);
+      }
+      window.onload = () => {
+        let timeBlocks = document.querySelectorAll('.time-block')
+        setInterval(() => {
+          let now = new Date()
+          let timeStr = `${now.getHours()}${now.getMinutes()}${now.getSeconds()}`
+          Array.from(timeStr, (num, i) => {
+            let n = Number(num);
+            timeBlocks.item(i).style.top = -83 * n + 'px';
+          })
+        }, 1000)
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="time-block">0123456789</div>
+      <div class="time-block">0123456789</div>
+      <div class="time-block">0123456789</div>
+      <div class="time-block">0123456789</div>
+      <div class="time-block">0123456789</div>
+      <div class="time-block">0123456789</div>
+    </div>
+  </body>
+</html>
