@@ -111,7 +111,7 @@ nyx16色眼影¥69
             }
             if (reg.test(item)) {
               const [, val] = reg.exec(item);
-              const additions = Number(val) + Number(add);
+              const additions = Number(val) + add;
               const newVal = item.replaceAll(/¥([0-9]*)/g, `¥${additions}`);
               return newVal;
             }
