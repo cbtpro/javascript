@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <div id="app">
+    <div>
+      <textarea v-model="raw" class="raw"></textarea>
+    </div>
+
+    <div>
+      <input v-model="additions" class="additions" />
+      <input type="button" @click="calc" value="计算">
+    </div>
+      <textarea v-model="output" class="raw"></textarea>
+  </div>
+
+  <script type="module">
+    import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+    createApp({
+      data() {
+        return {
+          raw: `2/14号，正常上班！口红收到货先验，过后不保！
+(若收到包裹有任何疑问，请于签收2天内联系客服，超过3天概不负责，谢谢理解！）
+蒂佳婷蓝药丸34/绿药丸¥35
+雅漾喷雾¥53
+芙丽芳丝洁面¥65
+德美乐嘉急救面膜75ml¥215
+兰芝紫隔离¥58/绿隔离¥58
+兰芝蓝色洁面¥57
+法尔曼幸福面膜¥777
+小蓝罐¥13/久光贴¥23
+欧莱雅紫熨斗港版¥132
+欧莱雅紫熨斗韩带按压头 ¥114
+欧莱雅零点面霜¥108
+欧莱雅小蜜罐¥137
+欧莱雅小白瓶30ml¥78
+后天气丹水乳¥420
+后天气丹套盒¥795新版
+后拱辰享洁面180ml ¥80
+苾莱宝复活草面膜¥145
+芳珂防晒本土版¥116
+卡诗金色发油¥210
+卡诗黑钻三件套¥630
+bp儿童面霜¥292
+碧柔防晒90g¥35
+橘子面霜50ml¥237
+橘子面霜100ml¥384
+碧欧泉御尊三件套
+碧欧泉水动力洁面新版¥128
+水动力三件套增量版¥480
+
+慕拉得A醇眼部精华¥355
+A醇视黄醇面部精华¥400
+伊菲丹超级面膜50ml¥825
+伊菲丹超级面膜10ml¥128
+悦碧施清洁面膜75ml¥145
+悦碧施颈霜50ml¥765
+罗拉散粉¥165
+3CE¥109
+疤克带防伪¥161
+艾凡达大梳子¥82
+艾凡达小梳子¥70
+萝卜丁001m红盒新版¥440
+悦木之源一举两得¥103韩
+悦木之源泥娃娃¥83
+悦木之源祛痘凝胶新日期¥57
+ampleur防晒amp防晒¥190 
+ct粉饼01¥192
+CT四色眼影枕边话¥194
+CT四色眼影exaggereyes¥194
+vidivici女神洁面¥63
+敷尔佳白膜¥50
+敷尔佳黑膜 ¥73
+RT彩妆蛋1个装¥21
+RT彩妆蛋2个装¥42
+RT彩妆蛋4个装¥76
+nyx16色眼影¥69
+
+怡丽丝尔水乳清爽¥270
+怡丽丝尔水乳滋润20.10¥270
+怡丽丝尔眼霜22g新日期¥246
+爱马仕滋润85¥250
+
+安耐晒60m新款2022 款¥123
+`,
+          additions: 20,
+          output: ' ',
+        }
+      },
+      methods: {
+        calc() {
+          const { raw, additions } = this;
+          const output = this.calcOutput(raw, additions);
+          this.output = output;
+        },
+        calcOutput(raw = '', add = 0) {
+          // 截取每一行
+          const list = raw.split('\n');
+          const reg = /¥([0-9]*)/;
+          const newList = list.map((item = '') => {
+            if (item.trim() === '') {
+              return item;
+            }
+            if (reg.test(item)) {
+              const [, val] = reg.exec(item);
+              const additions = Number(val) + add;
+              const newVal = item.replaceAll(/¥([0-9]*)/g, `¥${additions}`);
+              return newVal;
+            }
+            return item;
+          });
+          return newList.join('\n');
+        },
+      },
+    }).mount('#app')
+  </script>
+  <style scoped>
+    .raw {
+      width: 90vw;
+      height: 50vh;
+    }
+  </style>
+</body>
+
+</html>
