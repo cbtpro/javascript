@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>动画时间</title>
+  <style type="text/css">
+    html,
+    body {
+      margin: 0;
+      font-size: 12px;
+    }
+
+    .container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 300px;
+      height: 80px;
+      transform: translate(-50%, -50%);
+      border: 1px gray solid;
+      overflow: hidden;
+    }
+
+    .time-block {
+      float: left;
+      position: relative;
+      font-size: 4.5rem;
+      width: 50px;
+      text-align: center;
+      word-wrap: break-word;
+      transition: top 1s;
+    }
+  </style>
+  <script type="text/javascript">
+    /**
+    * 生成安全随机数
+    * @param {*} min 最小值（包含）
+    * @param {*} max 最大值（包含）
+    * @param {*} isFloat 是否带小数
+    * @returns {number} 范围内随机数
+    */
+    export const random = function (min = 0, max = 100, isFloat = false) {
+      const array = new Uint32Array(1)
+      const maxUint = 0xffffffff
+      const randomNumber = crypto.getRandomValues(array)[0] / maxUint
+      const randomRangeValue = (max - min + 1) * randomNumber + min
+      return isFloat ? randomRangeValue : Math.floor(randomRangeValue)
+    }
+    window.onload = () => {
+      let timeBlocks = document.querySelectorAll('.time-block')
+      setInterval(() => {
+        let now = new Date()
+        let timeStr = `${now.getHours()}${now.getMinutes()}${now.getSeconds()}`
+        Array.from(timeStr, (num, i) => {
+          let n = Number(num);
+          timeBlocks.item(i).style.top = -83 * n + 'px';
+        })
+      }, 1000)
+    }
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="time-block">0123456789</div>
+    <div class="time-block">0123456789</div>
+    <div class="time-block">0123456789</div>
+    <div class="time-block">0123456789</div>
+    <div class="time-block">0123456789</div>
+    <div class="time-block">0123456789</div>
+  </div>
+</body>
+
+</html>

@@ -2,16 +2,13 @@
 <html lang="zh" dir="ltr">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
   <title>动画时间</title>
   <style type="text/css">
     * {
       margin: 0;
       padding: 0;
     }
-
     html,
     body {
       margin: 0;
@@ -19,22 +16,21 @@
 
     .container {
       position: absolute;
-      font-size: 100px;
+      box-sizing: border-box;
       top: 50%;
       left: 50%;
-      width: 8em;
-      height: 1em;
+      width: 300px;
+      height: 80px;
       transform: translate(-50%, -50%);
-      /* border: 1px gray solid; */
+      border: 1px gray solid;
       overflow: hidden;
     }
 
-    .time-split,
     .time-block {
       float: left;
       position: relative;
+      font-size: 50px;
       width: 1em;
-      line-height: 1em;
       text-align: center;
       word-wrap: break-word;
       transition: top 0.5s;
@@ -48,19 +44,31 @@
     * @param {*} isFloat 是否带小数
     * @returns {number} 范围内随机数
     */
-    // const random = function (min = 0, max = 100, isFloat = false) {
-    //   const array = new Uint32Array(1)
-    //   const maxUint = 0xffffffff
-    //   const randomNumber = crypto.getRandomValues(array)[0] / maxUint
-    //   const randomRangeValue = (max - min + 1) * randomNumber + min
-    //   return isFloat ? randomRangeValue : Math.floor(randomRangeValue)
+    const random = function (min = 0, max = 100, isFloat = false) {
+      const array = new Uint32Array(1)
+      const maxUint = 0xffffffff
+      const randomNumber = crypto.getRandomValues(array)[0] / maxUint
+      const randomRangeValue = (max - min + 1) * randomNumber + min
+      return isFloat ? randomRangeValue : Math.floor(randomRangeValue)
+    }
+    // window.onload = () => {
+    //   let timeBlocks = document.querySelectorAll('.time-block')
+    //   setInterval(() => {
+    //     let now = new Date()
+    //     let timeStr = `${now.getHours()}${now.getMinutes()}${now.getSeconds()}`
+    //     Array.from(timeStr, (num, i) => {
+    //       let n = Number(num);
+    //       timeBlocks.item(i).style.top = -83 * n + 'px';
+    //     })
+    //   }, 1000)
     // }
     const tick = (timeBlocks) => {
       let now = new Date()
       let timeStr = `${now.getHours()}${now.getMinutes()}${now.getSeconds()}`
+      console.log(timeStr);
       Array.from(timeStr, (num, i) => {
         let n = Number(num);
-        timeBlocks.item(i).style.top = -1 * n + 'em';
+        timeBlocks.item(i).style.top = -80 * n + 'px';
       })
     }
     const start = () => {
@@ -80,10 +88,8 @@
   <div class="container">
     <div class="time-block">0123456789</div>
     <div class="time-block">0123456789</div>
-    <div class="time-split"><span class="split">:</span></div>
     <div class="time-block">0123456789</div>
     <div class="time-block">0123456789</div>
-    <div class="time-split"><span class="split">:</span></div>
     <div class="time-block">0123456789</div>
     <div class="time-block">0123456789</div>
   </div>
